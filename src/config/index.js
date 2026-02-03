@@ -3,7 +3,7 @@ require('dotenv').config();
 const config = {
   nodeEnv: process.env.NODE_ENV || 'development',
   port: parseInt(process.env.PORT || '3001', 10),
-  mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017/plugin_management',
+  mongoUri: process.env.MONGO_URI || 'mongodb+srv://sonusaini81075_plugin_rank:abCD@1234@cluster0.rqqjdmw.mongodb.net/',
   jwt: {
     accessSecret: process.env.JWT_ACCESS_SECRET || 'change-me-in-production',
     refreshSecret: process.env.JWT_REFRESH_SECRET || 'change-me-in-production',
