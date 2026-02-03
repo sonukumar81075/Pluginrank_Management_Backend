@@ -7,30 +7,40 @@ const { apiRouter } = require('./routes');
 
 const app = express();
 
+/* ---------- MIDDLEWARE ---------- */
 app.use(helmet());
 app.use(cors({
   origin: config.isProduction
-    ? (config.frontendUrl ? config.frontendUrl : false)
+    ? (config.frontendUrl || false)
     : true,
   credentials: true,
 }));
 app.use(express.json());
 
+/* ---------- ROUTES ---------- */
 app.use('/api/v1', apiRouter);
 
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+/* ---------- START SERVER ---------- */
 async function start() {
-  await connectDb();
-  app.listen(config.port);
+  try {
+    console.log('🔄 Connecting to database...');
+    await connectDb();
+    console.log('✅ Database connected');
+
+    const PORT = process.env.PORT || config.port || 5000;
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error('❌ Server failed to start');
+    console.error(err);
+    process.exit(1);
+  }
 }
 
-start().catch((err) => {
-  if (process.env.NODE_ENV === 'production') {
-    process.stderr.write(err?.stack || String(err));
-    process.stderr.write('\n');
-  }
-  process.exit(1);
-});
+start();
