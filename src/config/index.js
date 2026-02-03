@@ -13,9 +13,13 @@ const config = {
   nodeEnv,
   isProduction,
   port: parseInt(process.env.PORT || '3001', 10),
+<<<<<<< HEAD
   mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017/plugin_management',
   /** In production, set FRONTEND_URL (e.g. https://app.example.com) so CORS allows only your frontend. */
   frontendUrl: process.env.FRONTEND_URL || (isProduction ? null : true),
+=======
+  mongoUri: process.env.MONGO_URI || 'mongodb+srv://sonusaini81075_plugin_rank:abCD@1234@cluster0.rqqjdmw.mongodb.net/',
+>>>>>>> aef963484e1ac34f770d4147492d68daabe6ff3f
   jwt: {
     accessSecret: jwtAccessSecret,
     refreshSecret: jwtRefreshSecret,
