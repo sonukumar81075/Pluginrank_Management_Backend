@@ -1,12 +1,24 @@
 require('dotenv').config();
 
+const nodeEnv = process.env.NODE_ENV || 'development';
+const isProduction = nodeEnv === 'production';
+
+const jwtAccessSecret = process.env.JWT_ACCESS_SECRET || 'change-me-in-production';
+const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET || 'change-me-in-production';
+if (isProduction && (jwtAccessSecret === 'change-me-in-production' || jwtRefreshSecret === 'change-me-in-production')) {
+  throw new Error('Production requires JWT_ACCESS_SECRET and JWT_REFRESH_SECRET to be set in environment.');
+}
+
 const config = {
-  nodeEnv: process.env.NODE_ENV || 'development',
+  nodeEnv,
+  isProduction,
   port: parseInt(process.env.PORT || '3001', 10),
   mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017/plugin_management',
+  /** In production, set FRONTEND_URL (e.g. https://app.example.com) so CORS allows only your frontend. */
+  frontendUrl: process.env.FRONTEND_URL || (isProduction ? null : true),
   jwt: {
-    accessSecret: process.env.JWT_ACCESS_SECRET || 'change-me-in-production',
-    refreshSecret: process.env.JWT_REFRESH_SECRET || 'change-me-in-production',
+    accessSecret: jwtAccessSecret,
+    refreshSecret: jwtRefreshSecret,
     accessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN || '15m',
     refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
   },

@@ -8,7 +8,12 @@ const { apiRouter } = require('./routes');
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: config.nodeEnv === 'production' ? undefined : true }));
+app.use(cors({
+  origin: config.isProduction
+    ? (config.frontendUrl ? config.frontendUrl : false)
+    : true,
+  credentials: true,
+}));
 app.use(express.json());
 
 app.use('/api/v1', apiRouter);
@@ -22,6 +27,10 @@ async function start() {
   app.listen(config.port);
 }
 
-start().catch(() => {
+start().catch((err) => {
+  if (process.env.NODE_ENV === 'production') {
+    process.stderr.write(err?.stack || String(err));
+    process.stderr.write('\n');
+  }
   process.exit(1);
 });
