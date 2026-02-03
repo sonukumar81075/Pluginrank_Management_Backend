@@ -1,0 +1,29 @@
+{
+  "name": "plugin-management-api",
+  "version": "1.0.0",
+  "description": "API-first SaaS backend for WordPress plugin SEO & rank tracking",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "start:worker": "node src/worker/index.js",
+    "dev": "node --watch src/index.js",
+    "worker": "node --watch src/worker/index.js",
+    "lint": "eslint src --ext .js",
+    "test": "jest"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.3",
+    "node-cron": "^3.0.3",
+    "zod": "^3.22.4"
+  }
+}
